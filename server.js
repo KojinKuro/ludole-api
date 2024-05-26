@@ -17,7 +17,7 @@ app.get('/api/v1/game', async (req, res) => {
 app.post('/api/v1/game', async (req, res)=> {
   const {title, imagesrc, year, genre, themes,console,developer,publisher} = req.body;
 
-  if (!title || !imagesrc || !year || !genre ||!themes || !console || !developer || !publisher) {
+  if (!req.body) {
     return res.status(400).json({message:"Please add all relevant information!"})
   }
   
