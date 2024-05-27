@@ -28,6 +28,7 @@ app
           ...req.body,
         })
         .returning("id");
+
       res.status(201).json({ id });
     } catch (err) {
       res.status(500).json({ message: "Error adding game!" });
@@ -52,5 +53,5 @@ app.get("/api/v1/game/:id", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`App listening at http://localhost:${PORT}`);
-  console.log(`Running in ${process.env.NODE_ENV}`);
+  console.log(`Running in ${process.env.ENVIRONMENT}`);
 });
