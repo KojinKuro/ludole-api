@@ -1,5 +1,6 @@
 const express = require("express");
 const knex = require("./knex/knex.js");
+require("dotenv").config();
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -50,5 +51,5 @@ app.get("/api/v1/game/:id", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port: ${PORT}`);
+  console.log(`App listening at http://localhost:${PORT}`);
 });
