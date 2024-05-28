@@ -16,24 +16,36 @@ app
     }
   })
   .post("/api/v1/game", async (req, res) => {
-    if (!req.body) {
-      return res
-        .status(400)
-        .json({ message: "Please add all relevant information!" });
+    const newGame = req.body;
+
+    for (const requiredParam of [
+      ["title", "string"],
+      ["imagesrc", "string"],
+      ["year", "number"],
+      ["genre", "object"],
+      ["themes", "object"],
+      ["console", "object"],
+      ["developer", "object"],
+      ["publisher", "object"],
+    ]) {
+      const [param, type] = requiredParam;
+      if (!newGame[param]) {
+        return res.status(422).json({
+          message: `Please add all relevant information! Missing ${param}`,
+        });
+      } else if (typeof newGame[param] !== type) {
+        return res.status(422).json({
+          message: `${param} param is ${typeof newGame[param]}! Use ${type}`,
+        });
+      }
     }
 
     try {
-      const [id] = await knex("game")
-        .insert({
-          ...req.body,
-        })
-        .returning("id");
-
+      const [id] = await knex("game").insert(newGame).returning("id");
       res.status(201).json({ id });
     } catch (err) {
       res.status(500).json({ message: "Error adding game!" });
     }
-    //res.send(req.body)
   });
 
 app.get("/api/v1/game/:id", async (req, res) => {
@@ -53,5 +65,5 @@ app.get("/api/v1/game/:id", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`App listening at http://localhost:${PORT}`);
-  console.log(`Running in ${process.env.ENVIRONMENT}`);
+  console.log(`Running in ${process.env.ENVIRONMENT} environment`);
 });
