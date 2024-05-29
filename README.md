@@ -1,7 +1,7 @@
 
 # Ludole API
 
-This is the backend API server for Ludole application. This project was created as part of a larger project to learn how to build a fullstack application. More infomration about this project can be found in the front end repository here.
+This is the backend API server for [Ludole](https://github.com/KojinKuro/ludole) application. This project was created as part of a larger project to learn how to build a fullstack application. More infomration about this project can be found in the [front end repository here](https://github.com/KojinKuro/ludole).
 
 ![Node.js Badge](https://img.shields.io/badge/Node.js-5FA04E?logo=nodedotjs&logoColor=fff&style=for-the-badge)
 ![Express Badge](https://img.shields.io/badge/Express-000?logo=express&logoColor=fff&style=for-the-badge)
