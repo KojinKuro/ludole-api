@@ -1,5 +1,7 @@
 exports.seed = async function (knex) {
-  await knex("game").del;
+  // remove challenges first to prevent foreign key errors
+  await knex("challenge").del();
+  await knex("game").del();
 
   await knex("game").insert([
     {

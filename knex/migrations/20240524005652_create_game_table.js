@@ -4,7 +4,7 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable("game", (table) => {
-    table.increments("id");
+    table.increments("game_id").unsigned().primary();
     table.string("title").notNullable();
     table.string("imagesrc").notNullable();
     table.integer("year", 4).notNullable();
