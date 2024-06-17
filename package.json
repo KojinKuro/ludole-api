@@ -2,8 +2,9 @@
   "name": "ludole-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "predeploy": "npm run migrate && npm run seed",
     "dev": "ENVIRONMENT=development nodemon server.js",
     "start": "nodemon server.js",
     "build": "npm install",
