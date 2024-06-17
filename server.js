@@ -75,11 +75,11 @@ app.get("/api/v1/challenge/:date", async (req, res) => {
       return res.status(400).json({ message: "This is in the future" });
     }
 
-    const game = await knex("game")
+    let challengeGame = await knex("game")
       .select("*")
       .join("challenge", "challenge.challenge_game_id", "=", "game.game_id")
       .where("challenge_date", challengeDate);
-    if (game.length) return res.json(game[0]);
+    if (challengeGame.length) return res.json(challengeGame[0]);
 
     // generate challenge
     await knex("challenge").insert({
@@ -90,11 +90,11 @@ app.get("/api/v1/challenge/:date", async (req, res) => {
         .limit(1),
     });
 
-    const generatedGame = await knex("game")
+    challengeGame = await knex("game")
       .select("*")
       .join("challenge", "challenge.challenge_game_id", "=", "game.game_id")
       .where("challenge_date", challengeDate);
-    if (game.length) return res.json(generatedGame[0]);
+    if (challengeGame.length) return res.json(challengeGame[0]);
     else return res.status(500).json({ message: "Something bad happened" });
   } catch (err) {
     res.status(500).json({ message: "Some error occurred fetching challenge" });
