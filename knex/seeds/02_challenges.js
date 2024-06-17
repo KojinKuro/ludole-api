@@ -1,36 +1,20 @@
+const { subDays, format } = require("date-fns");
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.seed = async function (knex) {
-  await knex("challenge").insert([
-    {
-      challenge_date: "2024-06-16",
+  const challengeEntries = [];
+  for (let i = 0; i < 30; ++i) {
+    challengeEntries.push({
+      challenge_date: format(subDays(Date.now(), i), "yyyy-MM-dd"),
       challenge_game_id: knex("game")
         .select("id")
         .orderByRaw("random()")
         .limit(1),
-    },
-    {
-      challenge_date: "2024-06-17",
-      challenge_game_id: knex("game")
-        .select("id")
-        .orderByRaw("random()")
-        .limit(1),
-    },
-    {
-      challenge_date: "2024-06-18",
-      challenge_game_id: knex("game")
-        .select("id")
-        .orderByRaw("random()")
-        .limit(1),
-    },
-    {
-      challenge_date: "2024-06-19",
-      challenge_game_id: knex("game")
-        .select("id")
-        .orderByRaw("random()")
-        .limit(1),
-    },
-  ]);
+    });
+  }
+
+  await knex("challenge").insert(challengeEntries);
 };
