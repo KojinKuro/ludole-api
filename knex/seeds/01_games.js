@@ -1,4 +1,5 @@
 exports.seed = async function (knex) {
+  // remove challenges first to prevent foreign key errors
   await knex("challenge").del();
   await knex("game").del();
 

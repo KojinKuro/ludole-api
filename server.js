@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const knex = require("./knex/knex.js");
-const cors = require('cors');
+const cors = require("cors");
+const { toDate, isValid, isFuture, format } = require("date-fns");
 const PORT = process.env.PORT || 8000;
 const app = express();
 app.use(express.json());
@@ -61,6 +62,42 @@ app.get("/api/v1/game/:id", async (req, res) => {
     res.json(game);
   } catch (err) {
     res.status(500).json({ message: "Error getting game!" });
+  }
+});
+
+app.get("/api/v1/challenge/:date", async (req, res) => {
+  try {
+    const challengeDate = toDate(req.params.date);
+    if (!isValid(challengeDate)) {
+      return res.status(400).json({ message: "Invalid date format" });
+    }
+    if (isFuture(challengeDate)) {
+      return res.status(400).json({ message: "This is in the future" });
+    }
+
+    const game = await knex("game")
+      .select("*")
+      .join("challenge", "challenge.challenge_game_id", "=", "game.game_id")
+      .where("challenge_date", challengeDate);
+    if (game.length) return res.json(game[0]);
+
+    // generate challenge
+    await knex("challenge").insert({
+      challenge_date: format(challengeDate, "yyyy-MM-dd"),
+      challenge_game_id: knex("game")
+        .select("game_id")
+        .orderByRaw("random()")
+        .limit(1),
+    });
+
+    const generatedGame = await knex("game")
+      .select("*")
+      .join("challenge", "challenge.challenge_game_id", "=", "game.game_id")
+      .where("challenge_date", challengeDate);
+    if (game.length) return res.json(generatedGame[0]);
+    else return res.status(500).json({ message: "Something bad happened" });
+  } catch (err) {
+    res.status(500).json({ message: "Some error occurred fetching challenge" });
   }
 });
 

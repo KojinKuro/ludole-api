@@ -10,7 +10,7 @@ exports.seed = async function (knex) {
     challengeEntries.push({
       challenge_date: format(subDays(Date.now(), i), "yyyy-MM-dd"),
       challenge_game_id: knex("game")
-        .select("id")
+        .select("game_id")
         .orderByRaw("random()")
         .limit(1),
     });
