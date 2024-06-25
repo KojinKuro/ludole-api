@@ -103,5 +103,5 @@ app.get("/api/v1/challenge/:date", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`App listening at http://localhost:${PORT}`);
-  console.log(`Running in ${process.env.ENVIRONMENT} environment`);
+  console.log(`Running in ${process.env.NODE_ENV} environment`);
 });
