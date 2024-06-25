@@ -43,8 +43,8 @@ app
     }
 
     try {
-      const [id] = await knex("game").insert(newGame).returning("id");
-      res.status(201).json({ id });
+      const [game_id] = await knex("game").insert(newGame).returning("game_id");
+      res.status(201).json({ game_id });
     } catch (err) {
       res.status(500).json({ message: "Error adding game!" });
     }
@@ -53,7 +53,7 @@ app
 app.get("/api/v1/game/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const game = await knex("game").where("id", parseInt(id));
+    const game = await knex("game").where("game_id", parseInt(id));
 
     if (!game.length) {
       return res.json({ message: `Could not find game with ${id}` });
