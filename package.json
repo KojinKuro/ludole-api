@@ -5,9 +5,8 @@
   "main": "server.js",
   "scripts": {
     "predeploy": "npm run migrate && npm run seed",
-    "dev": "ENVIRONMENT=development nodemon server.js",
+    "dev": "NODE_ENV=development && npm run start",
     "start": "nodemon server.js",
-    "build": "npm install",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
