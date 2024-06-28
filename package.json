@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "predeploy": "npm run migrate && npm run seed",
-    "dev": "NODE_ENV=development && npm run start",
+    "dev": "NODE_ENV=development nodemon server.js",
     "start": "nodemon server.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
